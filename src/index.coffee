@@ -42,39 +42,31 @@ isRelativeUrl = (u) ->
 
 isRelativeToBase = (u) -> '/' is u.substr 0, 1
 
-module.exports = (opt) ->
-  opt ?= {}
-  opt.debug ?= false
-  opt.adaptPath ?= (ctx) ->
-    path.join (path.relative ctx.destinationDir, ctx.sourceDir), ctx.targetFile
+module.exports = (transformFn) ->
+  opt = {}
+  opt.debug = false;
 
-  unless typeof opt.adaptPath is 'function'
+  unless typeof transformFn is 'function'
     throw new gutil.PluginError PLUGIN_NAME, 'adaptPath method is mssing'
 
-  unless opt.destination
-    throw new gutil.PluginError PLUGIN_NAME, 'destination directory is mssing'
-
   mungePath = (match, sourceFilePath, file) ->
-    if (isRelativeUrl file) and not (isRelativeToBase file)
-      destinationDir = opt.destination
-      sourceDir = path.dirname sourceFilePath
-      targetUrl = opt.adaptPath
-        sourceDir: sourceDir
-        sourceFile: sourceFilePath
-        destinationDir: destinationDir
-        targetFile: file
+    sourceDir = path.dirname sourceFilePath
+    targetUrl = transformFn
+      sourceDir: sourceDir
+      sourceFile: sourceFilePath
+      targetFile: file
 
-      if typeof targetUrl is 'string'
-        # fix for windows paths
-        targetUrl = targetUrl.replace ///\\///g, '/' if path.sep is '\\'
-        return targetUrl.replace "'", "\\'"
+    if typeof targetUrl is 'string'
+      # fix for windows paths
+      targetUrl = targetUrl.replace ///\\///g, '/' if path.sep is '\\'
+      return targetUrl.replace "'", "\\'"
     else if opt.debug
       gutil.log (magenta PLUGIN_NAME),
-                'not rewriting absolute path for',
-                (magenta match),
-                'in',
-                (magenta sourceFilePath)
-      return
+              'not rewriting absolute path for',
+              (magenta match),
+              'in',
+              (magenta sourceFilePath)
+    return
 
   logRewrite = (match, sourceFilePath, destinationFilePath) ->
     if opt.debug
