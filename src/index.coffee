@@ -51,10 +51,11 @@ module.exports = (transformFn) ->
 
   mungePath = (match, sourceFilePath, file) ->
     sourceDir = path.dirname sourceFilePath
-    targetUrl = transformFn
+    targetUrl = transformFn file,
       sourceDir: sourceDir
       sourceFile: sourceFilePath
-      targetFile: file
+      isRelativeUrl: isRelativeUrl file
+      isRelativeToBase: isRelativeToBase file
 
     if typeof targetUrl is 'string'
       # fix for windows paths

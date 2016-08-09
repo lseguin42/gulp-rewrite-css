@@ -25,26 +25,18 @@ npm install gulp-rewrite-css --save-dev
 
 ```javascript
 var gulp = require('gulp');
-var rewriteCSS = require('gulp-rewrite-css');
+var rewriteCSS = require('gulp-rewrite-css-url');
 
 gulp.task('my-rewrite', function() {
   var dest = './dist/';
   return gulp.src('./static/css/*.css')
-    .pipe(rewriteCSS({destination:dest}))
+    .pipe(rewriteCSS(function (targetUrl, ctx) {
+		var customUrl = '/your/new/path';
+		return customUrl;
+	}))
     .pipe(gulp.dest(dest));
 });
 ```
-### Options
-* `destination` (required, String) - the target directory for the processed CSS. Paths are rewritten relatively to that directory.
-* `[debug]` (optional, boolean, defaults to false) - whether to log what gulp-rewrite-css is doing
-* `[adaptPath]` (optional, Function, defaults to the internal rewriting method of gulp-rewrite-css) - will be passed a context hash that contains the following options:
-
-	| key              | description                                                              |
-	|------------------|--------------------------------------------------------------------------|
-	| `sourceDir`      | the path in which the currently processed CSS file resides in            |
-	| `sourceFile`     | the path to the currently processed CSS file                             |
-	| `destinationDir` | the path of the target directory where the CSS file ends in              |
-	| `targetFile`     | the path of the target file (e.g. the contents of `url(…)` or `@import`) |
 
 ## License
 
