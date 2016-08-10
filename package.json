@@ -11,15 +11,17 @@
   ],
   "main": "./lib/index",
   "dependencies": {
-    "event-stream": "~3.3.2",
     "bufferstreams": "~1.1.0",
-    "gulp-util": "~3.0.6"
+    "css": "^2.2.1",
+    "event-stream": "~3.3.2",
+    "gulp-util": "~3.0.6",
+    "vinyl": "^1.2.0"
   },
   "engines": {
     "node": ">= 0.10"
   },
   "scripts": {
-    "prepublish": "coffee -o lib src",
+    "prepublish": "npm run test && tsc",
     "test": "mocha --compilers coffee:coffee-script/register -R spec",
     "watch": "mocha --compilers coffee:coffee-script/register -R min --watch",
     "coverage": "coffee -o src src && coffee -o test test && istanbul cover _mocha --report html -- -R spec -t 3000 -s 2000",

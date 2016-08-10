@@ -1,0 +1,7 @@
+.img:before {
+	content: "/*mon-text";
+	background-image: url(/image/toto.jpg);
+}
+.img:after {
+	content: "mon-text*/";
+}

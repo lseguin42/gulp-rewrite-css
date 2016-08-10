@@ -1,0 +1,13 @@
+{
+  "name": "gulp-rewrite-css",
+  "dependencies": {},
+  "globalDependencies": {
+    "chalk": "registry:dt/chalk#0.4.0+20160317120654",
+    "css": "registry:dt/css#0.0.0+20151120051005",
+    "event-stream": "registry:dt/event-stream#0.0.0+20160216030252",
+    "gulp-util": "registry:dt/gulp-util#0.0.0+20160316155526",
+    "node": "registry:dt/node#6.0.0+20160807145350",
+    "through2": "registry:dt/through2#2.0.0+20160317120654",
+    "vinyl": "registry:dt/vinyl#1.1.0+20160316155526"
+  }
+}
